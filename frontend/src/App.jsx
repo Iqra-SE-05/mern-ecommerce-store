@@ -65,6 +65,13 @@ const filteredProducts = products.filter((p) => {
               key={product._id}
               className="bg-white rounded-xl shadow hover:shadow-lg transition p-5"
             >
+              {product.image && (
+  <img
+    src={product.image}
+    alt={product.name}
+    className="w-full h-48 object-cover rounded-lg mb-3"
+  />
+)}
               <span className="text-xs bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full">
                 {product.category}
               </span>

@@ -101,6 +101,7 @@ function AdminDashboard() {
           <input name="price" type="number" placeholder="Price" value={form.price} onChange={handleChange} className="border rounded-lg px-3 py-2" required />
           <input name="countInStock" type="number" placeholder="Stock" value={form.countInStock} onChange={handleChange} className="border rounded-lg px-3 py-2" required />
           <input name="description" placeholder="Description" value={form.description} onChange={handleChange} className="border rounded-lg px-3 py-2 sm:col-span-2" required />
+          <input name="image" placeholder="Image URL (optional)" value={form.image} onChange={handleChange} className="border rounded-lg px-3 py-2 sm:col-span-2" />
           <button type="submit" className="bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 sm:col-span-2">
             Add Product
           </button>
