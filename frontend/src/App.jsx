@@ -12,6 +12,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 function Home() {
   const [products, setProducts] = useState([]);
   const { addToCart } = useCart();
+  const [search, setSearch] = useState("");
+const [category, setCategory] = useState("All");
 
   useEffect(() => {
     fetch("http://localhost:5000/api/products")
@@ -19,6 +21,14 @@ function Home() {
       .then((data) => setProducts(data))
       .catch((error) => console.log(error));
   }, []);
+
+  const categories = ["All", ...new Set(products.map((p) => p.category))];
+
+const filteredProducts = products.filter((p) => {
+  const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase());
+  const matchesCategory = category === "All" || p.category === category;
+  return matchesSearch && matchesCategory;
+});
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -28,9 +38,29 @@ function Home() {
         <h2 className="text-xl font-semibold mb-6 text-gray-800">
           Our Products
         </h2>
+        <div className="flex flex-col sm:flex-row gap-4 mb-6">
+  <input
+    type="text"
+    placeholder="Search products..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    className="border rounded-lg px-3 py-2 flex-1 bg-white"
+  />
+  <select
+    value={category}
+    onChange={(e) => setCategory(e.target.value)}
+    className="border rounded-lg px-3 py-2 bg-white"
+  >
+    {categories.map((c) => (
+      <option key={c} value={c}>
+        {c}
+      </option>
+    ))}
+  </select>
+</div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
+          {filteredProducts.map((product) =>  (
             <div
               key={product._id}
               className="bg-white rounded-xl shadow hover:shadow-lg transition p-5"
