@@ -3,10 +3,13 @@ import { Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
+import { useCart } from "./context/CartContext";
+import Cart from "./pages/Cart";
 
 
 function Home() {
   const [products, setProducts] = useState([]);
+  const { addToCart } = useCart();
 
   useEffect(() => {
     fetch("http://localhost:5000/api/products")
@@ -43,9 +46,12 @@ function Home() {
                 <span className="text-xl font-bold text-indigo-600">
                   Rs. {product.price}
                 </span>
-                <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700">
-                  Add to Cart
-                </button>
+                <button
+  onClick={() => addToCart(product)}
+  className="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-indigo-700"
+>
+  Add to Cart
+</button>
               </div>
             </div>
           ))}
@@ -61,6 +67,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/cart" element={<Cart />} />
     </Routes>
   );
 }

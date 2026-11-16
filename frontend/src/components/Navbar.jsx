@@ -1,7 +1,9 @@
 import { Link, useNavigate } from "react-router-dom";
+import { useCart } from "../context/CartContext";
 
 function Navbar() {
   const navigate = useNavigate();
+  const { totalItems } = useCart();
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const handleLogout = () => {
@@ -16,6 +18,9 @@ function Navbar() {
       </Link>
 
       <div className="flex items-center gap-4">
+        <Link to="/cart" className="text-sm hover:underline">
+  Cart ({totalItems})
+</Link>
         {userInfo ? (
           <>
             <span className="text-sm">Hi, {userInfo.name}</span>
