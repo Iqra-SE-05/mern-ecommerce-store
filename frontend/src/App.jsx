@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
+import { Routes, Route } from "react-router-dom";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import Navbar from "./components/Navbar";
 
-function App() {
+
+function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
@@ -12,9 +17,7 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      <nav className="bg-indigo-600 text-white px-8 py-4 shadow">
-        <h1 className="text-2xl font-bold">My Store</h1>
-      </nav>
+      <Navbar />
 
       <div className="max-w-6xl mx-auto p-8">
         <h2 className="text-xl font-semibold mb-6 text-gray-800">
@@ -49,6 +52,16 @@ function App() {
         </div>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
+    </Routes>
   );
 }
 
