@@ -21,8 +21,17 @@ function Navbar() {
         <Link to="/cart" className="text-sm hover:underline">
   Cart ({totalItems})
 </Link>
+
         {userInfo ? (
           <>
+          <Link to="/orders" className="text-sm hover:underline">
+  My Orders
+</Link>
+{userInfo.role === "admin" && (
+  <Link to="/admin" className="text-sm hover:underline">
+    Admin
+  </Link>
+)}
             <span className="text-sm">Hi, {userInfo.name}</span>
             <button
               onClick={handleLogout}
