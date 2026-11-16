@@ -13,6 +13,8 @@ app.use("/api/products", productRoutes);
 
 const authRoutes = require("./routes/authRoutes");
 app.use("/api/auth", authRoutes);
+const orderRoutes = require("./routes/orderRoutes");
+app.use("/api/orders", orderRoutes);
 
 app.get("/", (req, res) => {
   res.send("E-commerce API is running...");

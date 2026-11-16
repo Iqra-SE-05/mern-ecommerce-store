@@ -5,7 +5,8 @@ import Login from "./pages/Login";
 import Navbar from "./components/Navbar";
 import { useCart } from "./context/CartContext";
 import Cart from "./pages/Cart";
-
+import Checkout from "./pages/Checkout";
+import Orders from "./pages/Orders";
 
 function Home() {
   const [products, setProducts] = useState([]);
@@ -68,6 +69,8 @@ function App() {
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/checkout" element={<Checkout />} />
+      <Route path="/orders" element={<Orders />} />
     </Routes>
   );
 }
