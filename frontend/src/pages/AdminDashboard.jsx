@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
@@ -18,7 +19,7 @@ function AdminDashboard() {
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
 
   const loadProducts = () => {
-    fetch("http://localhost:5000/api/products")
+    fetch(`${API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(Array.isArray(data) ? data : []));
   };
@@ -40,7 +41,7 @@ function AdminDashboard() {
     e.preventDefault();
     setError("");
 
-    const res = await fetch("http://localhost:5000/api/products", {
+    const res = await fetch(`${API_URL}/api/products`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +74,7 @@ function AdminDashboard() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this product?")) return;
 
-    await fetch(`http://localhost:5000/api/products/${id}`, {
+    await fetch(`${API_URL}/api/products/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${userInfo.token}` },
     });

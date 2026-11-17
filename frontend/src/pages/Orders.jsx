@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
@@ -15,7 +16,7 @@ function Orders() {
       return;
     }
 
-    fetch("http://localhost:5000/api/orders/myorders", {
+   fetch(`${API_URL}/api/orders/myorders`, {
       headers: { Authorization: `Bearer ${userInfo.token}` },
     })
       .then((res) => res.json())

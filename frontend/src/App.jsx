@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "./config";
 import { Routes, Route } from "react-router-dom";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
@@ -16,7 +17,7 @@ function Home() {
 const [category, setCategory] = useState("All");
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/products")
+    fetch(`${API_URL}/api/products`)
       .then((res) => res.json())
       .then((data) => setProducts(data))
       .catch((error) => console.log(error));
