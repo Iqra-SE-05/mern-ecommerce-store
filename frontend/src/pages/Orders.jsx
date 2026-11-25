@@ -67,6 +67,9 @@ function Orders() {
                 </div>
               ))}
 
+              <p className="text-xs text-gray-500 mt-2">
+  Payment: {order.paymentMethod || "COD"}
+</p>
               <div className="border-t mt-3 pt-3 flex justify-between font-bold text-gray-900">
                 <span>Total</span>
                 <span>Rs. {order.totalPrice}</span>

@@ -90,6 +90,10 @@ function Checkout() {
               required
             />
 
+            <div className="border rounded-lg px-3 py-3 mb-4 bg-gray-50">
+  <p className="text-sm text-gray-500">Payment Method</p>
+  <p className="font-semibold text-gray-900">Cash on Delivery (COD)</p>
+</div>
             <p className="font-bold text-gray-900 mb-4">
               Total: Rs. {totalPrice}
             </p>

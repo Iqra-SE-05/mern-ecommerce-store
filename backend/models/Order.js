@@ -24,6 +24,11 @@ const orderSchema = new mongoose.Schema(
       city: { type: String, required: true },
       phone: { type: String, required: true },
     },
+        paymentMethod: {
+      type: String,
+      enum: ["COD"],
+      default: "COD",
+    },
     totalPrice: {
       type: Number,
       required: true,
