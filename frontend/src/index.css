@@ -1,1 +1,21 @@
 @import "tailwindcss";
+
+@theme {
+  --font-display: "Playfair Display", serif;
+  --font-body: "Inter", sans-serif;
+  --color-cream: #faf6ef;
+  --color-ink: #1f2a2e;
+  --color-teal: #0f766e;
+  --color-coral: #f4694c;
+  --color-sun: #f6b73c;
+}
+
+body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+h1, h2, h3 {
+  font-family: var(--font-display);
+}

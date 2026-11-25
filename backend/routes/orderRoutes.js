@@ -1,7 +1,7 @@
 const express = require("express");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
-const { protect } = require("../middleware/authMiddleware");
+const { protect, admin } = require("../middleware/authMiddleware");
 
 const router = express.Router();
 
@@ -69,6 +69,40 @@ router.get("/myorders", protect, async (req, res) => {
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+// Saare orders dekhna (sirf admin)
+router.get("/", protect, admin, async (req, res) => {
+  try {
+    const orders = await Order.find()
+      .populate("user", "name email")
+      .sort({ createdAt: -1 });
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Order ka status badalna (sirf admin)
+router.put("/:id/status", protect, admin, async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    if (!["Pending", "Shipped", "Delivered"].includes(status)) {
+      return res.status(400).json({ message: "Invalid status" });
+    }
+
+    const order = await Order.findById(req.params.id);
+    if (!order) {
+      return res.status(404).json({ message: "Order not found" });
+    }
+
+    order.status = status;
+    await order.save();
+    res.json(order);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
   }
 });
 
