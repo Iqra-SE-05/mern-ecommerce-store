@@ -14,6 +14,7 @@ function AdminDashboard() {
     image: "",
   });
   const [error, setError] = useState("");
+  const [editingId, setEditingId] = useState(null);
   const navigate = useNavigate();
 
   const userInfo = JSON.parse(localStorage.getItem("userInfo"));
@@ -38,38 +39,43 @@ function AdminDashboard() {
   };
 
   const handleAdd = async (e) => {
-    e.preventDefault();
-    setError("");
+  e.preventDefault();
+  setError("");
 
-    const res = await fetch(`${API_URL}/api/products`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${userInfo.token}`,
-      },
-      body: JSON.stringify({
-        ...form,
-        price: Number(form.price),
-        countInStock: Number(form.countInStock),
-      }),
-    });
-    const data = await res.json();
+  const url = editingId
+    ? `${API_URL}/api/products/${editingId}`
+    : `${API_URL}/api/products`;
 
-    if (!res.ok) {
-      setError(data.message);
-      return;
-    }
+  const res = await fetch(url, {
+    method: editingId ? "PUT" : "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${userInfo.token}`,
+    },
+    body: JSON.stringify({
+      ...form,
+      price: Number(form.price),
+      countInStock: Number(form.countInStock),
+    }),
+  });
+  const data = await res.json();
 
-    setForm({
-      name: "",
-      description: "",
-      price: "",
-      category: "",
-      countInStock: "",
-      image: "",
-    });
-    loadProducts();
-  };
+  if (!res.ok) {
+    setError(data.message);
+    return;
+  }
+
+  setForm({
+    name: "",
+    description: "",
+    price: "",
+    category: "",
+    countInStock: "",
+    image: "",
+  });
+  setEditingId(null);
+  loadProducts();
+};
 
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this product?")) return;
@@ -80,6 +86,18 @@ function AdminDashboard() {
     });
     loadProducts();
   };
+  const handleEdit = (p) => {
+  setEditingId(p._id);
+  setForm({
+    name: p.name,
+    description: p.description,
+    price: p.price,
+    category: p.category,
+    countInStock: p.countInStock,
+    image: p.image || "",
+  });
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
   return (
     <div className="min-h-screen bg-gray-100">
@@ -104,8 +122,8 @@ function AdminDashboard() {
           <input name="description" placeholder="Description" value={form.description} onChange={handleChange} className="border rounded-lg px-3 py-2 sm:col-span-2" required />
           <input name="image" placeholder="Image URL (optional)" value={form.image} onChange={handleChange} className="border rounded-lg px-3 py-2 sm:col-span-2" />
           <button type="submit" className="bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 sm:col-span-2">
-            Add Product
-          </button>
+  {editingId ? "Update Product" : "Add Product"}
+</button>
         </form>
 
         {products.map((p) => (
@@ -116,9 +134,14 @@ function AdminDashboard() {
                 {p.category} • Rs. {p.price} • Stock: {p.countInStock}
               </p>
             </div>
-            <button onClick={() => handleDelete(p._id)} className="text-red-600 text-sm">
-              Delete
-            </button>
+            <div className="flex gap-4">
+  <button onClick={() => handleEdit(p)} className="text-indigo-600 text-sm">
+    Edit
+  </button>
+  <button onClick={() => handleDelete(p._id)} className="text-red-600 text-sm">
+    Delete
+  </button>
+</div>
           </div>
         ))}
       </div>

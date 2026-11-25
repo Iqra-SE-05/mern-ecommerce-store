@@ -38,8 +38,7 @@ cd frontend
 npm install
 npm run dev
 
-## Screenshots
-(Add screenshots here)
+
 
 ## Author
 Iqra Bashir
